@@ -3,20 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package embeddemapping;
+package setsmapping;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import javax.persistence.CollectionTable;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -35,20 +31,30 @@ public class Student {
     private String lastName;
     @Column(name="email")
     private String email;
+  
+    private Address homeAddress;
+     @AttributeOverrides({
+		@AttributeOverride(name="street", column=@Column(name="BILLING_STREET")),
+		@AttributeOverride(name="zipCode", column=@Column(name="BILLING_ZIPCODE")),
+		@AttributeOverride(name="city", column=@Column(name="BILLING_CITY")),
+	})
+   
+    private Address billingAddress;
 
-     
-    @ElementCollection
-    @CollectionTable(name = "image")
-    @OrderBy("file_name DESC")
-    @Column(name = "file_name")
-    private Set<String> images = new LinkedHashSet<>();
-
-    public Set<String> getImages() {
-        return images;
+    public Address getHomeAddress() {
+        return homeAddress;
     }
 
-    public void setImages(Set<String> images) {
-        this.images = images;
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Address getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(Address billingAddress) {
+        this.billingAddress = billingAddress;
     }
     
     public Student(){
